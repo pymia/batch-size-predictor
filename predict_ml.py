@@ -7,8 +7,6 @@ import numpy as np
 from numpy import genfromtxt
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.model_selection import train_test_split
-
-
 TRAIN_PATH = "train_cases.csv"
 RESULT_PATH = "result.csv"
 
@@ -16,6 +14,11 @@ RESULT_PATH = "result.csv"
 def read_csv(path):
     """read csv file with genfromtxt to get numpy arr"""
     return genfromtxt(path, delimiter=',')
+
+
+def save_as_file(predict_arr):
+    """save predict result as file"""
+    np.savetxt(RESULT_PATH, predict_arr, fmt='%d', newline='\n')
 
 
 class Classifier(object):
@@ -34,10 +37,6 @@ class Classifier(object):
         """predict with input"""
         test_arr = read_csv(path)
         return self.model.predict(test_arr)
-
-
-def save_as_file(predict_arr):
-    np.savetxt(RESULT_PATH, predict_arr, fmt='%d', newline='\n')
 
 
 def main(path):

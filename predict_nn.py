@@ -13,7 +13,6 @@ from keras.models import load_model
 from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import Dropout
-from matplotlib import pyplot
 MODEL_PATH = "my_model.h5"
 TRAIN_PATH = "train_cases.csv"
 RESULT_PATH = "result.csv"
@@ -25,7 +24,7 @@ def read_csv(path):
 
 
 def save_as_file(predict_arr):
-    """save_as_file"""
+    """save predict result as file"""
     np.savetxt(RESULT_PATH, predict_arr, fmt='%d', newline='\n')
 
 
@@ -56,8 +55,8 @@ class Classifier(object):
             train_x, test_x, train_y, test_y = train_test_split(
                 dataset_x, dataset_y, test_size=0.33, random_state=42)
             self.model = base_model()
-            history = self.model.fit(np.asarray(train_x), np.asarray(train_y), batch_size=256,
-                                     nb_epoch=3000, verbose=2)
+            self.model.fit(np.asarray(train_x), np.asarray(train_y), batch_size=256,
+                           nb_epoch=3000, verbose=2)
             self.model.save(MODEL_PATH)
 
     def predict(self, path):
