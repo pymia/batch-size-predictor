@@ -12,7 +12,6 @@ from keras.utils import np_utils
 from keras.models import load_model
 from keras.models import Sequential
 from keras.layers import Dense
-from keras.layers import Dropout
 MODEL_PATH = "my_model.h5"
 TRAIN_PATH = "train_cases.csv"
 RESULT_PATH = "result.csv"
@@ -32,9 +31,7 @@ def base_model():
     """model component"""
     model = Sequential()
     model.add(Dense(32, input_dim=6, activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Dense(32, activation='relu'))
-    model.add(Dropout(0.5))
     model.add(Dense(7, activation='softmax'))
     model.compile(loss='categorical_crossentropy',
                   optimizer='adam', metrics=['accuracy'])
@@ -55,8 +52,8 @@ class Classifier(object):
             train_x, test_x, train_y, test_y = train_test_split(
                 dataset_x, dataset_y, test_size=0.33, random_state=42)
             self.model = base_model()
-            self.model.fit(np.asarray(train_x), np.asarray(train_y), batch_size=256,
-                           nb_epoch=3000, verbose=2)
+            self.model.fit(np.asarray(train_x), np.asarray(train_y), batch_size=128,
+                           nb_epoch=10000, verbose=2)
             self.model.save(MODEL_PATH)
 
     def predict(self, path):
